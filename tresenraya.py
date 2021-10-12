@@ -5,14 +5,18 @@ casillasQueFaltan: list = [1, 2, 3, 4, 5, 6, 7, 8, 9]
 casillasJugador: list = []
 casillasOrdenador: list = []
 filasCompletas: tuple = ((1, 2, 3), (4, 5, 6), (7, 8, 9), (1, 4, 7), (2, 5, 8), (3, 6, 9), (1, 5, 9), (3, 5, 7))
-turnoJugador: bool = True
+turnoJugador: bool = False
 ganar: bool = False
 perder: bool = False
 
 def tirada():
     global turnoJugador
-    pintarTablero()
     while ganar == False and perder == False:
+        pintarTablero()
+        if turnoJugador:
+            turnoJugador = False
+        else:
+            turnoJugador = True
         if turnoJugador:
             tiraJugador()
         else:
@@ -21,9 +25,11 @@ def tirada():
 def tiraJugador():  
     n = False
     while n == False:
-        casilla = input("                                          Selecciona la casilla que quieres marcar: ")
+        casilla = input("Selecciona la casilla que quieres marcar: ".rjust(82))
         if casilla not in ["1", "2", "3", "4", "5", "6", "7", "8", "9"]:
-            print("                                                La celda seleccionada tiene que ser un valor numérico entre 1 y 9\n")
+            print()
+            print("La celda seleccionada tiene que ser un valor numérico entre 1 y 9.".rjust(106))
+            print()
         else:
             n = True
     casilla = int(casilla)
@@ -32,9 +38,10 @@ def tiraJugador():
         casillasQueFaltan.remove(casilla)
         comprobarTirada(casilla)
     else:
-        print(f"                                           La casilla {casilla} ya está marcada.\n")
+        print()
+        print(f"La casilla {casilla} ya está marcada.".rjust(69))
+        print()
         tiraJugador()
-    cambiarTurno()
 
 def buscarFilas(casilla):
     filasSeleccionadas = []
@@ -71,31 +78,28 @@ def pintarTablero():
     i = "x" if 9 in casillasJugador else "O" if 9 in casillasOrdenador else " "
     
     system("cls")
-    print("╔════════════════════════════════════════════════════════════════════════════════════════════╗".rjust(144, " "))
-    print("                 ║                                                                                            ║")
-    print("                 ║                                        TRES EN RAYA                                        ║")
-    print("                 ║                                                                                            ║")
-    print("                 ╚════════════════════════════════════════════════════════════════════════════════════════════╝\n\n")
-    print("                                                 ╔═══════╦═══════╦═══════╗")
-    print("                                                 ║       ║       ║       ║")
-    print(f"                                                 ║   {a}   ║   {b}   ║   {c}   ║") 
-    print("                                                 ║       ║       ║       ║")
-    print("                                                 ╠═══════╬═══════╬═══════╣")
-    print("                                                 ║       ║       ║       ║")
-    print(f"                                                 ║   {d}   ║   {e}   ║   {f}   ║")
-    print("                                                 ║       ║       ║       ║")
-    print("                                                 ╠═══════╬═══════╬═══════╣")
-    print("                                                 ║       ║       ║       ║")
-    print(f"                                                 ║   {g}   ║   {h}   ║   {i}   ║")
-    print("                                                 ║       ║       ║       ║")
-    print("                                                 ╚═══════╩═══════╩═══════╝\n\n")
+    print("\n")
+    print("╔════════════════════════════════════════════════════════════════════════════════════════════╗".rjust(130, " "))
+    print("║                                                                                            ║".rjust(130, " "))
+    print("║                                        TRES EN RAYA                                        ║".rjust(130, " "))
+    print("║                                                                                            ║".rjust(130, " "))
+    print("╚════════════════════════════════════════════════════════════════════════════════════════════╝".rjust(130, " "))
+    print("\n")
+    print("╔═══════╦═══════╦═══════╗".rjust(95))
+    print("║       ║       ║       ║".rjust(95))
+    print(f"║   {a}   ║   {b}   ║   {c}   ║".rjust(95)) 
+    print("║       ║       ║       ║".rjust(95))
+    print("╠═══════╬═══════╬═══════╣".rjust(95))
+    print("║       ║       ║       ║".rjust(95))
+    print(f"║   {d}   ║   {e}   ║   {f}   ║".rjust(95))
+    print("║       ║       ║       ║".rjust(95))
+    print("╠═══════╬═══════╬═══════╣".rjust(95))
+    print("║       ║       ║       ║".rjust(95))
+    print(f"║   {g}   ║   {h}   ║   {i}   ║".rjust(95))
+    print("║       ║       ║       ║".rjust(95))
+    print("╚═══════╩═══════╩═══════╝".rjust(95))
+    print("\n")
 
-def cambiarTurno():
-    global turnoJugador
-    if turnoJugador:
-        turnoJugador = False
-    else:
-        turnoJugador = True
 
 def tiraOrdenador():
     marca = False
@@ -127,33 +131,52 @@ def tiraOrdenador():
                 if fila[0] in casillasJugador and fila[1] in casillasJugador and fila[2] in casillasQueFaltan:
                     casillasOrdenador.append(fila[2])
                     casillasQueFaltan.remove(fila[2])
-                    pintarTablero()
                     comprobarTirada(fila[2])
                     marca = True
-                    cambiarTurno()
                     break
                 elif fila[0] in casillasJugador and fila[2] in casillasJugador and fila[1] in casillasQueFaltan:
                     casillasOrdenador.append(fila[1])
                     casillasQueFaltan.remove(fila[1])
-                    pintarTablero()
                     comprobarTirada(fila[1])
                     marca = True
-                    cambiarTurno()
                     break
                 elif fila[1] in casillasJugador and fila[2] in casillasJugador and fila[0] in casillasQueFaltan:
                     casillasOrdenador.append(fila[0])
                     casillasQueFaltan.remove(fila[0])
-                    pintarTablero()
                     comprobarTirada(fila[0])
                     marca = True
-                    cambiarTurno()
                     break
+
+    for celda in casillasOrdenador:
+        if marca == True:
+            break
+        filasSeleccionadas = buscarFilas(celda)
+        for fila in filasSeleccionadas:
+            if fila[0] in casillasOrdenador and fila[1] in casillasQueFaltan and fila[2] in casillasQueFaltan:
+                casilla = random.choice([fila[1], fila[2]])                 
+                casillasOrdenador.append(casilla)
+                casillasQueFaltan.remove(casilla)
+                comprobarTirada(casilla)
+                marca = True
+                break
+            elif fila[0] in casillasQueFaltan and fila[1] in casillasOrdenador and fila[2] in casillasQueFaltan:
+                casilla = random.choice([fila[0], fila[2]])
+                casillasOrdenador.append(casilla)
+                casillasQueFaltan.remove(casilla)
+                comprobarTirada(casilla)
+                marca = True
+                break
+            elif fila[0] in casillasQueFaltan and fila[1] in casillasQueFaltan and fila[2] in casillasOrdenador:
+                casilla = random.choice([fila[0], fila[1]])
+                casillasOrdenador.append(casilla)
+                casillasQueFaltan.remove(casilla)
+                comprobarTirada(casilla)
+                marca = True
+                break
     if marca == False:    
         casilla = random.choice(casillasQueFaltan)
         casillasOrdenador.append(casilla)
-        pintarTablero()
         casillasQueFaltan.remove(casilla)
-        cambiarTurno()
 
 def reiniciar():
     global casillasQueFaltan 
@@ -162,7 +185,7 @@ def reiniciar():
     global turnoJugador
     global ganar
     global perder
-    seguir = input("                          ¿Quieres seguir jugando? (S/N): ")
+    seguir = input("¿Quieres seguir jugando? (S/N): ".rjust(72))
     if seguir.upper() == "N":
         system("cls")
         system("exit")
@@ -171,7 +194,7 @@ def reiniciar():
         casillasQueFaltan = [1, 2, 3, 4, 5, 6, 7, 8, 9]
         casillasJugador = []
         casillasOrdenador = []
-        turnoJugador = True
+        turnoJugador = False
         ganar = False
         perder = False
         tirada()
@@ -181,21 +204,27 @@ def reiniciar():
 def ganador():
     global ganar
     pintarTablero()
-    print("\nHas ganado\n".rjust(20, " "))
+    print()
+    print("Has ganado.".rjust(51))
+    print()
     ganar = True
     reiniciar()
     
 def perdedor():
     global perder
     pintarTablero()
-    print("\nHas perdido\n".rjust(20, " "))
+    print()
+    print("Has perdido.".rjust(52))
+    print()
     perder = True
     reiniciar()
     
 def empate():
     global ganar, perder
     pintarTablero()
-    print("\nLa partida ha terminado en empate.\n".rjust(20, " "))
+    print()
+    print("La partida ha terminado en empate.".rjust(74))
+    print()
     ganar = True
     perder = True
     reiniciar()
